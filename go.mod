@@ -1,4 +1,4 @@
-module github.com/smartbch/merkle-tree
+module github.com/smartbch/merkletree
 
 go 1.18
 
