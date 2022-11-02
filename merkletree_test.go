@@ -11,12 +11,12 @@ import (
 	"golang.org/x/crypto/sha3"
 )
 
-type Leaf struct {
+type TestLeaf struct {
 	Bz []byte
 }
 
 // CalculateHash hashes the values of a Leaf
-func (l Leaf) CalculateHash() ([]byte, error) {
+func (l TestLeaf) CalculateHash() ([]byte, error) {
 	h := gethcrypto.NewKeccakState()
 	if _, err := h.Write(l.Bz); err != nil {
 		return nil, err
@@ -25,18 +25,18 @@ func (l Leaf) CalculateHash() ([]byte, error) {
 }
 
 // Equals tests for equality of two Contents
-func (l Leaf) Equals(other Content) (bool, error) {
-	return bytes.Equal(l.Bz, other.(Leaf).Bz), nil
+func (l TestLeaf) Equals(other Content) (bool, error) {
+	return bytes.Equal(l.Bz, other.(TestLeaf).Bz), nil
 }
 
 // TODO: add more unit tests for merkle tree
 func Test_Example(t *testing.T) {
 	var list []Content
-	list = append(list, Leaf{Bz: gethcmn.FromHex("0x0e")})
-	list = append(list, Leaf{Bz: gethcmn.FromHex("0x0d")})
-	list = append(list, Leaf{Bz: gethcmn.FromHex("0x0c")})
-	list = append(list, Leaf{Bz: gethcmn.FromHex("0x0b")})
-	list = append(list, Leaf{Bz: gethcmn.FromHex("0x0a")})
+	list = append(list, TestLeaf{Bz: gethcmn.FromHex("0x0e")})
+	list = append(list, TestLeaf{Bz: gethcmn.FromHex("0x0d")})
+	list = append(list, TestLeaf{Bz: gethcmn.FromHex("0x0c")})
+	list = append(list, TestLeaf{Bz: gethcmn.FromHex("0x0b")})
+	list = append(list, TestLeaf{Bz: gethcmn.FromHex("0x0a")})
 
 	tree, _ := NewTreeWithHashStrategy(list, sha3.NewLegacyKeccak256)
 	for _, leaf := range tree.Leafs {
