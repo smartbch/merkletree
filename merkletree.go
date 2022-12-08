@@ -3,9 +3,9 @@ package merkletree
 import (
 	"bytes"
 	"errors"
-	"hash"
-
 	"golang.org/x/crypto/sha3"
+	"hash"
+	"sort"
 )
 
 // Content represents the data that is stored and verified by the tree. A type that
@@ -150,12 +150,20 @@ func buildWithContent(cs []Content, t *MerkleTree) (*Node, []*Node, error) {
 		})
 	}
 
+	leafs = sortLeafs(leafs)
 	root, err := buildIntermediate(leafs, t)
 	if err != nil {
 		return nil, nil, err
 	}
 
 	return root, leafs, nil
+}
+
+func sortLeafs(leafs []*Node) []*Node {
+	sort.Slice(leafs, func(i, j int) bool {
+		return bytes.Compare(leafs[i].Hash, leafs[j].Hash) < 0
+	})
+	return leafs
 }
 
 func buildIntermediate(nl []*Node, t *MerkleTree) (*Node, error) {
