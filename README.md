@@ -1,5 +1,5 @@
 # merkletree
 
-A merkle tree written by golang for openzeppin-contracts.
+A merkle tree written by golang for openzeppelin-contracts.
 
 ![MerkleTree](./MerkleTree.png)
